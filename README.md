@@ -1,6 +1,8 @@
 # AWS ネットワークあれこれ
 
-自分がよくわからなくなるAWSのあれこれをハンズオンで学習してく
+自分がたまに分からなくなること・誰かがハマりそうなポイントなどをハンズオンで学習する。
+
+また、可能な限りハンズオンの後はTerraformでリソースを作る。
 
 - [VPC内の異なるサブネット間の通信](./private_subnet_connection/doc.md)
 - [CloudFrontとS3とACMでHTTPS通信](./cloudfront_s3_acm/doc.md)
