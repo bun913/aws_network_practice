@@ -16,3 +16,8 @@ module "webassets" {
   tags        = var.tags
   bucket_list = local.webassets
 }
+
+module "cert" {
+  source      = "./modules/cert/"
+  root_domain = var.root_domain
+}
