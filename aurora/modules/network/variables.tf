@@ -13,7 +13,12 @@ variable "tags" {
   description = "DeafaultTags for this project"
 }
 
-variable "subnets" {
+variable "db_subnets" {
   type        = list(map(string))
-  description = "Subnet Settings"
+  description = "DB Subnet Settings"
+}
+
+variable "bastion_subnets" {
+  type        = list(map(string))
+  description = "Bastion Subnet Settings"
 }

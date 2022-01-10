@@ -15,7 +15,17 @@ variable "vpc" {
   description = "VPCSettings from tfvars"
 }
 
-variable "subnets" {
+variable "db_subnets" {
   type        = list(map(string))
   description = "SubnetsSettings from tfvars"
+}
+
+variable "bastion_subnets" {
+  type        = list(map(string))
+  description = "SubnetsSettings from tfvars"
+}
+
+variable "vpc_endpoint" {
+  type        = map(any)
+  description = "vpc_endpoint_setting"
 }
