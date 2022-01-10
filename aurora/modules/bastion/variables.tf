@@ -1,4 +1,11 @@
-variable "security_group_name" {
+variable "project" {
+  type = string
+}
+variable "inbound_sg_name" {
+  type = string
+}
+
+variable "outbound_sg_name" {
   type = string
 }
 
@@ -22,6 +29,16 @@ variable "interface_services" {
 variable "gateway_services" {
   type        = list(string)
   description = "VPC Endpoint service names(Type: Gateway)"
+}
+
+variable "bastion_subnet" {
+  type        = string
+  description = "EC2 subnet id"
+}
+
+variable "db_subnet_cidrs" {
+  type        = list(string)
+  description = "Subnet CidrBlocks for DB"
 }
 
 variable "tags" {

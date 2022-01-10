@@ -10,7 +10,6 @@ resource "aws_rds_cluster" "main" {
   backup_retention_period = var.cluster_settings.backup_retention_period
   db_subnet_group_name    = aws_db_subnet_group.main.id
   # NOTE: お試しようなので削除保護をfalseにしている。本番では必ず設定する
-  deletion_protection       = false
-  skip_final_snapshot       = false
-  final_snapshot_identifier = "test"
+  deletion_protection = false
+  skip_final_snapshot = true
 }

@@ -4,6 +4,12 @@ output "db_subnet_ids" {
   ]
 }
 
+output "bastion_subnet_ids" {
+  value = [
+    for sb in aws_subnet.bastion : sb.id
+  ]
+}
+
 output "vpc_id" {
   value = aws_vpc.main.id
 }
