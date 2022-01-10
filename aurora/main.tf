@@ -25,14 +25,17 @@ locals {
 }
 # bastion server(管理用サーバー)
 module "bastion" {
-  source              = "./modules/bastion/"
-  security_group_name = "${var.project}-ve-sg"
-  tags                = merge({ Name = "${var.project}-bastion" }, var.tags)
-  vpc_cidr            = var.vpc.cidr_block
-  vpc_id              = module.network.vpc_id
-  interface_services  = var.vpc_endpoint.interface
-  gateway_services    = var.vpc_endpoint.gateway
-  route_table_id      = module.network.bastion_route_table_id
+  source             = "./modules/bastion/"
+  inbound_sg_name    = "${var.project}-inbound-sg"
+  outbound_sg_name   = "${var.project}-outbound-sg"
+  tags               = merge({ Name = "${var.project}-bastion" }, var.tags)
+  vpc_cidr           = var.vpc.cidr_block
+  vpc_id             = module.network.vpc_id
+  interface_services = var.vpc_endpoint.interface
+  gateway_services   = var.vpc_endpoint.gateway
+  route_table_id     = module.network.bastion_route_table_id
+  project            = var.project
+  bastion_subnet     = module.network.bastion_subnet_ids.0
 }
 # DB
 module "db" {
