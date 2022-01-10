@@ -20,10 +20,17 @@ resource "aws_security_group" "allow_https_outbound" {
 
   egress {
     description = "OutBound from VPC"
-    from_port   = 0
-    to_port     = 0
+    from_port   = 443
+    to_port     = 443
     protocol    = "all"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    description = "OutBound  For MySQL"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "all"
+    cidr_blocks = var.db_subnet_cidrs
   }
   tags = var.tags
 }

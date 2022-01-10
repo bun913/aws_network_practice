@@ -36,6 +36,11 @@ variable "bastion_subnet" {
   description = "EC2 subnet id"
 }
 
+variable "db_subnet_cidrs" {
+  type        = list(string)
+  description = "Subnet CidrBlocks for DB"
+}
+
 variable "tags" {
   type = map(string)
 }

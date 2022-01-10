@@ -36,6 +36,7 @@ module "bastion" {
   route_table_id     = module.network.bastion_route_table_id
   project            = var.project
   bastion_subnet     = module.network.bastion_subnet_ids.0
+  db_subnet_cidrs    = [for sb in var.db_subnets : sb.cidr_block]
 }
 # DB
 module "db" {
