@@ -1,4 +1,19 @@
+variable "project" {
+  type = string
+}
 variable "subnet_group_name" {
+  type = string
+}
+
+variable "sg_group_name" {
+  type = string
+}
+
+variable "vpc_id" {
+  type = string
+}
+
+variable "bastion_sg_id" {
   type = string
 }
 
@@ -23,4 +38,9 @@ variable "cluster_settings" {
     backup_retention_period = number
   })
   description = "cluster settings map"
+}
+
+variable "instance_class" {
+  type    = string
+  default = "db.t3.small"
 }
