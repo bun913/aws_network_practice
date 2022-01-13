@@ -24,7 +24,7 @@ resource "null_resource" "cluster" {
   }
   provisioner "local-exec" {
     # aws cliでRDSのパスワードを変更する
-    command    = "aws ssm get-parameter --name /${var.project}/db_password --query 'Parameter.Value' --with-decryption | xargs -IPASS aws rds modify-db-cluster --db-cluster-identifier ${aws_rds_cluster.main.id} --master-user-password PASS"
+    command    = "aws ssm get-parameter --name /${var.project}/db_password --query 'Parameter.Value' --with-decryption | xargs -IPASS aws rds modify-db-cluster --db-cluster-identifier ${aws_rds_cluster.main.id} --master-user-password PASS --apply-immediately"
     on_failure = fail
   }
 }
