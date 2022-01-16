@@ -2,6 +2,10 @@ variable "project" {
   type    = string
   default = "color-app"
 }
+variable "region" {
+  type    = string
+  default = "ap-northeast-1"
+}
 variable "tags" {
   default = {
     "Terraform" = "True",
@@ -36,4 +40,9 @@ variable "alb_subnets" {
 variable "vpc_endpoint" {
   type        = map(any)
   description = "vpc_endpoint_setting"
+}
+
+variable "ecr_repo" {
+  type        = string
+  description = "ECR Repositry URI"
 }
