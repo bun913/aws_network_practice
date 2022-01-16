@@ -76,7 +76,7 @@ resource "aws_ecs_service" "app" {
   deployment_maximum_percent         = 200
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.app.arn
+    target_group_arn = aws_lb_target_group.app_blue.arn
     container_name   = "color"
     container_port   = 8080
   }
