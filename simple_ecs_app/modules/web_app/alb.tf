@@ -4,7 +4,7 @@ resource "aws_security_group" "ingress_all" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "HTTPS from internal"
+    description = "HTTPS from all"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -12,17 +12,24 @@ resource "aws_security_group" "ingress_all" {
   }
 
   ingress {
-    description = "HTTP from internal"
-    from_port   = 443
-    to_port     = 443
+    description = "HTTP from all"
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = var.tags
 }
+# TODO: 一旦fixed_responseにしてALB自体にアクセスできるか確認
 resource "aws_lb" "app" {
   name               = var.alb_name
-  internal           = true
+  internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.ingress_all.id]
   subnets            = var.alb_subnets
@@ -37,4 +44,20 @@ resource "aws_lb" "app" {
   /*   enabled = true */
   /* } */
   tags = var.tags
+}
+# NOTE: 今回はHTTPSは利用しない
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.app.arn
+  port              = "80"
+  protocol          = "HTTP"
+  # TODO: 一旦動作確認用のため、ECSサービスができたらそちらにforwardすること
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Fixed response content"
+      status_code  = "200"
+    }
+  }
 }
