@@ -1,32 +1,3 @@
-resource "aws_security_group" "ingress_all" {
-  name        = "ingress_all"
-  description = "Allow TLS inbound traffic"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    description = "HTTPS from all"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "HTTP from all"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = var.tags
-}
-# TODO: 一旦fixed_responseにしてALB自体にアクセスできるか確認
 resource "aws_lb" "app" {
   name               = var.alb_name
   internal           = false
@@ -52,12 +23,28 @@ resource "aws_lb_listener" "http" {
   protocol          = "HTTP"
   # TODO: 一旦動作確認用のため、ECSサービスができたらそちらにforwardすること
   default_action {
-    type = "fixed-response"
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
 
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Fixed response content"
-      status_code  = "200"
-    }
   }
+}
+
+resource "aws_lb_target_group" "app" {
+  name                 = "${var.project}-tg"
+  deregistration_delay = 60
+  port                 = 8080
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  health_check {
+    healthy_threshold   = 2
+    interval            = 30
+    matcher             = 200
+    path                = "/"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    unhealthy_threshold = 2
+  }
+  tags = var.tags
 }

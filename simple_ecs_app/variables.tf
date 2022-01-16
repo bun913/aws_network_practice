@@ -2,6 +2,10 @@ variable "project" {
   type    = string
   default = "color-app"
 }
+variable "region" {
+  type    = string
+  default = "ap-northeast-1"
+}
 variable "tags" {
   default = {
     "Terraform" = "True",

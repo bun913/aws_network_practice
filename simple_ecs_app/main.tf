@@ -26,5 +26,8 @@ module "web_app" {
   interface_services     = var.vpc_endpoint.interface
   gateway_services       = var.vpc_endpoint.gateway
 
+  container_image_url = "${var.ecr_repo}:v1"
+  region              = var.region
+
   tags = var.tags
 }
