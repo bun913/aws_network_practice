@@ -31,3 +31,11 @@ module "web_app" {
 
   tags = var.tags
 }
+
+module "cicd" {
+  source = "./modules/cicd/"
+
+  project  = var.project
+  region   = var.region
+  ecr_repo = var.ecr_repo
+}

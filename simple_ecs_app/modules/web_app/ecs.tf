@@ -81,6 +81,10 @@ resource "aws_ecs_service" "app" {
     container_port   = 8080
   }
 
+  deployment_controller {
+    type = "CODE_DEPLOY"
+  }
+
   health_check_grace_period_seconds = 60
   network_configuration {
     assign_public_ip = false
