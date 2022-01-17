@@ -38,4 +38,11 @@ module "cicd" {
   project  = var.project
   region   = var.region
   ecr_repo = var.ecr_repo
+
+  cluster_name           = module.web_app.cluster_name
+  service_name           = module.web_app.service_name
+  blue_listner_arn       = module.web_app.blue_listener_arn
+  green_listner_arn      = module.web_app.green_listener_arn
+  blue_targetgroup_name  = module.web_app.blue_targetgroup_name
+  green_targetgroup_name = module.web_app.green_targetgroup_name
 }
