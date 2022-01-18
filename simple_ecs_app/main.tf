@@ -45,4 +45,10 @@ module "cicd" {
   green_listner_arn      = module.web_app.green_listener_arn
   blue_targetgroup_name  = module.web_app.blue_targetgroup_name
   green_targetgroup_name = module.web_app.green_targetgroup_name
+
+  code_star_connection_arn = var.code_star_connection_arn
+  repository_id            = var.repository_id
+
+  tags = var.tags
+
 }

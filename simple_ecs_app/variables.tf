@@ -46,3 +46,14 @@ variable "ecr_repo" {
   type        = string
   description = "ECR Repositry URI"
 }
+
+variable "repository_id" {
+  type        = string
+  description = "Github App Repository"
+  sensitive   = true
+}
+
+variable "code_star_connection_arn" {
+  type      = string
+  sensitive = true
+}

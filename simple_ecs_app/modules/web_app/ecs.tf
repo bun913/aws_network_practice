@@ -11,6 +11,10 @@ resource "aws_ecs_cluster" "web" {
     "FARGATE_SPOT"
   ]
   tags = var.tags
+
+  depends_on = [
+    aws_lb.app
+  ]
 }
 
 resource "aws_ecs_task_definition" "app" {
@@ -56,6 +60,10 @@ resource "aws_ecs_task_definition" "app" {
   volume {
     name = "app-storage"
   }
+
+  depends_on = [
+    aws_lb.app
+  ]
 
   tags = var.tags
 }
