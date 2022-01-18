@@ -27,7 +27,7 @@
     {
       "Effect": "Allow",
       "Resource": ["*"],
-      "Action": ["s3:PutObject", "s3:GetObject", "s3:GetObjectVersion"]
+      "Action": ["s3:PutObject", "s3:GetObject", "s3:GetObjectVersion", "codestar-connections:UseConnection"]
     },
     {
       "Effect": "Allow",

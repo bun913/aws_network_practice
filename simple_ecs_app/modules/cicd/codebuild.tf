@@ -4,7 +4,7 @@ resource "aws_codebuild_project" "app" {
   description  = "Build App image for deployment"
 
   artifacts {
-    type = "CODEPIPELINE"
+    type = "NO_ARTIFACTS"
   }
 
   environment {
@@ -14,17 +14,17 @@ resource "aws_codebuild_project" "app" {
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
     environment_variable {
-      name  = "APP_IMAGE_REPO"
+      name  = "IMAGE_REPO"
       value = var.ecr_repo
-    }
-    environment_variable {
-      name  = "REGION"
-      value = var.region
     }
   }
   source {
-    type      = "CODEPIPELINE"
-    buildspec = "buildspec.yml"
+    type            = "GITHUB"
+    location        = "https://github.com/${var.repository_id}.git"
+    git_clone_depth = 1
+    buildspec       = file("${path.root}/files/buildspec.yml")
   }
+
+  tags = var.tags
 
 }

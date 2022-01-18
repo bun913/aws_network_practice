@@ -26,3 +26,16 @@ variable "blue_targetgroup_name" {
 variable "green_targetgroup_name" {
   type = string
 }
+variable "repository_id" {
+  type      = string
+  sensitive = true
+}
+variable "code_star_connection_arn" {
+  type      = string
+  sensitive = true
+}
+
+variable "tags" {
+  type        = map(any)
+  description = "DeafaultTags for this project"
+}
