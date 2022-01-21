@@ -26,6 +26,12 @@ resource "aws_lb_listener" "http_blue" {
     target_group_arn = aws_lb_target_group.app_blue.arn
   }
   tags = merge({ "Name" : "${var.project}-blue" }, var.tags)
+  # BGデプロイで動的にtgを入れ替えるため変更を無視
+  lifecycle {
+    ignore_changes = [
+      default_action
+    ]
+  }
 }
 resource "aws_lb_listener" "http_green" {
   load_balancer_arn = aws_lb.app.arn
@@ -36,6 +42,11 @@ resource "aws_lb_listener" "http_green" {
     target_group_arn = aws_lb_target_group.app_green.arn
   }
   tags = merge({ "Name" : "${var.project}-blue" }, var.tags)
+  lifecycle {
+    ignore_changes = [
+      default_action
+    ]
+  }
 }
 
 resource "aws_lb_target_group" "app_blue" {
