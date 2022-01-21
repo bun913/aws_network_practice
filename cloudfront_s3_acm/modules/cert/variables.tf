@@ -1,4 +1,4 @@
 variable "root_domain" {
-  type = string
+  type        = string
   description = ""
 }
