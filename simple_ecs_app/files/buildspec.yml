@@ -3,16 +3,25 @@ version: 0.2
 
 env:
   variables:
-    AWS_DEFAULT_REGION: ap-north-east-1
+    AWS_DEFAULT_REGION: ap-northeast-1
 
 phases:
   pre_build:
     commands:
+      - echo Login in to Amazon ECR `date`
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $IMAGE_REPO
-      - IMAGE_TAG=$(echo ${CODEBUILD_RESOLVED_SOURCE_VERSION} | cut -c 1-7)
+      - TIME_STAMP=$(echo `date "+%s"`)
+      # コミットIDとタイムスタンプを付与
+      - IMAGE_TAG=$(echo ${CODEBUILD_RESOLVED_SOURCE_VERSION} | cut -c 1-7)-${TIME_STAMP}
   build:
     commands:
-      - docker image build -t $APP_IMAGE_REPO:$IMAGE_TAG .
+      - echo Build started on `date`
+      - docker image build -t ${IMAGE_REPO}:${IMAGE_TAG} .
   post_build:
     commands:
-      - docker image push $APP_IMAGE_REPO:$IMAGE_TAG
+      - echo Push started on `date`
+      - docker image push ${IMAGE_REPO}:$IMAGE_TAG
+      - printf '{"Version":"1.0","ImageURI":"%s"}' $IMAGE_REPO:$IMAGE_TAG > imageDetail.json
+
+artifacts:
+  files:  imageDetail.json

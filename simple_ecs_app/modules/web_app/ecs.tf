@@ -107,4 +107,16 @@ resource "aws_ecs_service" "app" {
 
   tags = var.tags
 
+  lifecycle {
+    ignore_changes = [
+      load_balancer,
+      desired_count,
+      task_definition,
+      network_configuration,
+      launch_type,
+      platform_version,
+      capacity_provider_strategy
+    ]
+  }
+
 }
