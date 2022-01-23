@@ -6,6 +6,8 @@
 
 - [VPC内の異なるサブネット間の通信](./private_subnet_connection/doc.md)
 - [CloudFrontとS3とACMでHTTPS通信](./cloudfront_s3_acm/doc.md)
+    - zenn.devで記事公開
+      - https://zenn.dev/bun913/articles/27be589a095fd4
     - こだわりポイント
         - 独自ドメインを取得してCloudFrontに適用
         - SSL通信を可能にする
