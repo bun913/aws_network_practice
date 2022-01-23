@@ -41,8 +41,3 @@ variable "vpc_endpoint" {
   type        = map(any)
   description = "vpc_endpoint_setting"
 }
-
-variable "ecr_repo" {
-  type        = string
-  description = "ECR Repositry URI"
-}

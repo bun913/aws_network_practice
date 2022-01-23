@@ -36,10 +36,6 @@ variable "vpc_cidr" {
   type = string
 }
 
-variable "container_image_url" {
-  type = string
-}
-
 variable "region" {
   type = string
 }
