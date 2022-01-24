@@ -1,13 +1,13 @@
 # エラーログ配信用
 resource "aws_cloudwatch_log_group" "app" {
-  name              = "${var.project}-error-logs"
+  name              = "/aws/ecs/${var.project}-error-logs"
   tags              = var.tags
   retention_in_days = 90
 }
 
 # FireHose自体のロギング用
 resource "aws_cloudwatch_log_group" "firehose" {
-  name              = "${var.project}-firehose-logs"
+  name              = "/aws/kinesisfirehose/${var.project}-firehose-logs"
   tags              = var.tags
   retention_in_days = 30
 }
