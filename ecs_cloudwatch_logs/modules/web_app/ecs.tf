@@ -45,16 +45,30 @@ resource "aws_ecs_task_definition" "app" {
         }
       ],
       logConfiguration = {
-        logDriver = "awslogs"
+        logDriver = "awsfirelens"
+      }
+    },
+    {
+      essential         = true,
+      name              = "log_router",
+      image             = "${aws_ecr_repository.firelens.repository_url}:v1",
+      memoryReservation = 50,
+      logConfiguration = {
+        logDriver = "awslogs",
         options = {
-          awslogs-group         = aws_cloudwatch_log_group.app.name
-          awslogs-region        = var.region
-          awslogs-stream-prefix = "ecs"
+          awslogs-group         = aws_cloudwatch_log_group.firehose.name,
+          awslogs-region        = var.region,
+          awslogs-stream-prefix = "app-sidecar"
+        }
+      },
+      firelensConfiguration = {
+        type = "fluentbit",
+        options = {
+          config-file-type  = "file",
+          config-file-value = "/fluent-bit/etc/extra.conf"
         }
       }
-      # NOTE:複数コンテナの場合DepentsOnなども利用
-      # NOTE: volumeが必要な場合はここで設定(nginxとか利用する場合mountpathとか)
-    },
+    }
   ])
 
   volume {
@@ -62,7 +76,9 @@ resource "aws_ecs_task_definition" "app" {
   }
 
   depends_on = [
-    aws_lb.app
+    aws_lb.app,
+    null_resource.fluentbit,
+    null_resource.app
   ]
 
   tags = var.tags
@@ -90,7 +106,9 @@ resource "aws_ecs_service" "app" {
   }
 
   deployment_controller {
-    type = "CODE_DEPLOY"
+    # TODO: CodeDeployによるデプロイの場合CODE_DEPLOYにする
+    # 今回はそこはスコープではないため省略する
+    type = "ECS"
   }
 
   health_check_grace_period_seconds = 60
@@ -111,11 +129,6 @@ resource "aws_ecs_service" "app" {
     ignore_changes = [
       load_balancer,
       desired_count,
-      task_definition,
-      network_configuration,
-      launch_type,
-      platform_version,
-      capacity_provider_strategy
     ]
   }
 
