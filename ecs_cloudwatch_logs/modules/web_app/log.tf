@@ -31,7 +31,8 @@ resource "aws_kinesis_firehose_delivery_stream" "firelens" {
 
 # デリバリーログ長期保存用
 resource "aws_s3_bucket" "app_logs" {
-  acl = "private"
+  bucket = "${var.project}-deliverylog"
+  acl    = "private"
 
   server_side_encryption_configuration {
     rule {
