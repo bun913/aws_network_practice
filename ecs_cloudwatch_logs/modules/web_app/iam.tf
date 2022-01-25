@@ -72,15 +72,9 @@ resource "aws_iam_role_policy" "ecs_exec" {
 # Firelensコンテナ用ロール
 #####################
 
-resource "aws_iam_role" "firelens_task" {
-  name               = "${var.project}-firelens-task"
-  assume_role_policy = file("${path.module}/files/ecs_task_assume_policy.json")
-  tags               = var.tags
-}
-
 resource "aws_iam_role_policy" "firelens_task" {
   name = "${var.project}-firelens-task"
-  role = aws_iam_role.firelens_task.id
+  role = aws_iam_role.ecs_task.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -88,6 +82,11 @@ resource "aws_iam_role_policy" "firelens_task" {
       {
         Action = [
           "firehose:PutRecordBatch",
+          "logs:CreateLogStream",
+          "logs:CreateLogGroup",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+          "logs:PutRetentionPolicy"
         ]
         Effect   = "Allow"
         Resource = "*"
