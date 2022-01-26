@@ -22,6 +22,7 @@ phases:
       - echo Push started on `date`
       - docker image push ${IMAGE_REPO}:$IMAGE_TAG
       - printf '{"Version":"1.0","ImageURI":"%s"}' $IMAGE_REPO:$IMAGE_TAG > imageDetail.json
+      - sed -i 's/<AWS_ACCOUNT_ID>/'$AWS_ACCOUNT_ID'/g' taskdef.json
 
 artifacts:
   files:  imageDetail.json
