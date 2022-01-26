@@ -1,3 +1,4 @@
+data "aws_caller_identity" "current" {}
 resource "aws_codebuild_project" "app" {
   name         = "${var.project}-deploy"
   service_role = aws_iam_role.codebuild_service_role.arn
@@ -16,6 +17,10 @@ resource "aws_codebuild_project" "app" {
     environment_variable {
       name  = "IMAGE_REPO"
       value = var.ecr_repo
+    }
+    environment_variable {
+      name  = "AWS_ACCOUNT_ID"
+      value = data.aws_caller_identity.current.account_id
     }
   }
   source {
