@@ -41,3 +41,8 @@ variable "vpc_endpoint" {
   type        = map(any)
   description = "vpc_endpoint_setting"
 }
+
+variable "notificate_emails" {
+  type        = list(string)
+  description = "Email adresss list when errors happen"
+}
