@@ -28,5 +28,7 @@ module "web_app" {
 
   region = var.region
 
+  emails = var.notificate_emails
+
   tags = var.tags
 }

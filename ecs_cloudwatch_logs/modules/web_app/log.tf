@@ -4,6 +4,13 @@ resource "aws_cloudwatch_log_group" "app" {
   tags              = var.tags
   retention_in_days = 90
 }
+# エラーログをSNSトピックに配信するためのlambdaにサブスクリプション
+resource "aws_cloudwatch_log_subscription_filter" "error_log_subscription" {
+  name            = "${var.project}-error-subscription"
+  log_group_name  = aws_cloudwatch_log_group.app.id
+  filter_pattern  = "ERROR"
+  destination_arn = aws_lambda_function.sns_publish_func.arn
+}
 
 # FireHose自体のロギング用
 resource "aws_cloudwatch_log_group" "firehose" {
@@ -41,4 +48,16 @@ resource "aws_s3_bucket" "app_logs" {
       }
     }
   }
+}
+
+# メール通知用SNSトピック作成
+resource "aws_sns_topic" "notificate" {
+  name = "${var.project}-error-notification"
+}
+
+resource "aws_sns_topic_subscription" "topic_email_subscription" {
+  for_each  = { for email in var.emails : email => email }
+  topic_arn = aws_sns_topic.notificate.arn
+  protocol  = "email"
+  endpoint  = each.value
 }

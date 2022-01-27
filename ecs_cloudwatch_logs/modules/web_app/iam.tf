@@ -156,3 +156,46 @@ resource "aws_iam_role_policy" "firehose_role_policy" {
 }
 EOF
 }
+
+#####################
+# SNSに通知を発行するlambdaに付与するIAMロール
+#####################
+resource "aws_iam_role" "lambda_sns_publish" {
+  name = "${var.project}-publish-sns"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "lambda_sns_publish" {
+  name = "${var.project}-publish-sns"
+  role = aws_iam_role.lambda_sns_publish.id
+
+  policy = <<EOF
+{
+  "Statement": [
+    {
+      "Sid": "",
+      "Action": [
+        "SNS:Publish"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}

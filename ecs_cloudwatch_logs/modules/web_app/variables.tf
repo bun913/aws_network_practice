@@ -36,6 +36,11 @@ variable "vpc_cidr" {
   type = string
 }
 
+variable "emails" {
+  type        = list(string)
+  description = "Email adresss list when errors happen"
+}
+
 variable "region" {
   type = string
 }
