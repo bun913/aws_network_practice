@@ -28,7 +28,8 @@ module "web_app" {
 
   region = var.region
 
-  emails = var.notificate_emails
+  emails            = var.notificate_emails
+  slack_webhook_url = var.slack_webhook_url
 
   tags = var.tags
 }

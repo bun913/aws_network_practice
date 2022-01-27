@@ -194,6 +194,16 @@ resource "aws_iam_role_policy" "lambda_sns_publish" {
       ],
       "Effect": "Allow",
       "Resource": "*"
+    },
+    {
+      "Sid": "",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
     }
   ]
 }

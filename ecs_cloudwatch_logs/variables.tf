@@ -46,3 +46,8 @@ variable "notificate_emails" {
   type        = list(string)
   description = "Email adresss list when errors happen"
 }
+
+variable "slack_webhook_url" {
+  type        = string
+  description = "slack webhook for notification"
+}
