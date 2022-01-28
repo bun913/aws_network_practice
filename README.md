@@ -51,6 +51,7 @@
 
 - zenn.devで記事公開
   - https://zenn.dev/bun913/articles/c25765744352a4
+  - https://zenn.dev/bun913/articles/7c6c3a1ed53087
 - こだわりポイント
   -  ログ収集に極力お金はかけない
   -  エラーログはCloudWatchLogsへ
