@@ -56,3 +56,14 @@
   -  ログ収集に極力お金はかけない
   -  エラーログはCloudWatchLogsへ
   -  長期保存のためのログはS3へ配信
+
+## CloudFrontのCORS設定を入れる
+
+やってみたコードは[こちら](./cloudfront_cors_setting/README.md)
+
+- zenn.devで記事公開
+  - https://zenn.dev/bun913/articles/cloudfront-cors-policies
+- こだわりポイント
+  - 極めて普通だが、CloudFrontにCORSの設定を追加
+  - 特定のOriginにだけクロスオリジンリクエストを許可
+  - どのような設定かはzennをご覧ください
