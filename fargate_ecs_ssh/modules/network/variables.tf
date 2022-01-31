@@ -1,0 +1,41 @@
+variable "vpc_cidr" {
+  type        = string
+  description = "VPCiderBlocks"
+}
+
+variable "project" {
+  type        = string
+  description = "Project Nmae"
+}
+
+variable "tags" {
+  type        = map(any)
+  description = "DeafaultTags for this project"
+}
+
+variable "private_subnets" {
+  type = list(object({
+    name       = string
+    cidr_block = string
+    az         = string
+  }))
+  description = "Private Subnet Settings"
+}
+
+variable "alb_subnets" {
+  type = list(object({
+    name       = string
+    cidr_block = string
+    az         = string
+  }))
+  description = "alb Subnet Settings"
+}
+
+variable "db_subnets" {
+  type = list(object({
+    name       = string
+    cidr_block = string
+    az         = string
+  }))
+  description = "DB Subnet Settings"
+}
