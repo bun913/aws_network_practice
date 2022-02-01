@@ -1,5 +1,5 @@
 output "cluster_name" {
-  value = aws_ecs_cluster.web.name
+  value = aws_ecs_cluster.app.name
 }
 output "service_name" {
   value = aws_ecs_service.app.name

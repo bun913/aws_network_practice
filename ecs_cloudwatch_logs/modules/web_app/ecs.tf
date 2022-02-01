@@ -1,4 +1,4 @@
-resource "aws_ecs_cluster" "web" {
+resource "aws_ecs_cluster" "app" {
   name = "${var.project}-cluster"
 
   setting {
@@ -86,7 +86,7 @@ resource "aws_ecs_task_definition" "app" {
 
 resource "aws_ecs_service" "app" {
   name    = "${var.project}-service"
-  cluster = aws_ecs_cluster.web.id
+  cluster = aws_ecs_cluster.app.id
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
     base              = 1
